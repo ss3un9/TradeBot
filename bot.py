@@ -53,8 +53,8 @@ def predict_price(ticker):
         closeDf = forecast[forecast['ds'] == data.iloc[-1]['ds'].replace(hour=9)]
     closeValue = closeDf['yhat'].values[0]
     predicted_close_price = closeValue
-predict_price("KRW-WAXP")
-schedule.every().hour.do(lambda: predict_price("KRW-WAXP"))
+predict_price("KRW-IOTA")
+schedule.every().hour.do(lambda: predict_price("KRW-IOTA"))
 
 # 로그인
 upbit = pyupbit.Upbit(access, secret)
@@ -64,23 +64,28 @@ print("autotrade start")
 while True:
     try:
         now = datetime.datetime.now()
-        start_time = get_start_time("KRW-WAXP")
+        start_time = get_start_time("KRW-IOTA")
         end_time = start_time + datetime.timedelta(days=1)
         schedule.run_pending()
-
         if start_time < now < end_time - datetime.timedelta(seconds=10):
-            target_price = get_target_price("KRW-WAXP", 0.1)
-            current_price = get_current_price("KRW-WAXP")
+            target_price = get_target_price("KRW-IOTA", 0.4)
+            current_price = get_current_price("KRW-IOTA")
+            print("매수 목표가 : ",target_price)
+            print("IOTA 현재 가격 : ", current_price)
+            print("예상 종가 :", predicted_close_price)
             if target_price < current_price and current_price < predicted_close_price:
                 krw = get_balance("KRW")
                 if krw > 5000:
-                    upbit.buy_market_order("KRW-WAXP", krw*0.9995)
+                    upbit.buy_market_order("KRW-IOTA", krw*0.9995)
+                    print("구매")
         else:
-            eth = get_balance("WAXP")
+            eth = get_balance("IOTA")
             if eth > 0.00008:
-                upbit.sell_market_order("KRW-WAXP", eth*0.9995)
+                upbit.sell_market_order("KRW-IOTA", eth*0.9995)
+                print("판매")
         time.sleep(1)
     except Exception as e:
         print(e)
         time.sleep(1)
+
 

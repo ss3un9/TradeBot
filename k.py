@@ -3,7 +3,7 @@ import numpy as np
 
 
 def get_ror(k=0.5):
-    df = pyupbit.get_ohlcv("KRW-WAXP", count=7)
+    df = pyupbit.get_ohlcv("KRW-IOTA", count=7)
     df['range'] = (df['high'] - df['low']) * k
     df['target'] = df['open'] + df['range'].shift(1)
 
