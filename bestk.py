@@ -101,6 +101,7 @@ def value_k(ticker):
 
 predicted_price()
 schedule.every().hour.do(predicted_price)
+total=[]
 while True:
     try:
         now = datetime.datetime.now()
@@ -115,20 +116,17 @@ while True:
                 print(n,"current_price: ",current_price)
                 print(n,"predicted_close_price : " ,predicted_close_price[n])
                 if target_price < current_price and current_price < predicted_close_price[n] and ma3[n] < current_price:
-                        if current_price * 1.04 < predicted_close_price[n]:
-                            krw = get_balance("KRW")
-                            if krw > 6000:
-                                upbit.buy_market_order(n, 6000)
-                                print(n," ****구매*****")
-                            elif krw<6000:
-                                print("잔고부족")
-                                continue
+                    total.append(n)
+                    print(total)
+
         else:
             for n in krw_tickers:
-                coin = get_balance(n[4:])
+                coin = get_balance(n[:4])
                 if coin > 0.00008:
-                    upbit.sell_market_order(n, coin)
-                    print(n,"판매")
+                    upbit.sell_market_order("KRW-IOTA", coin*0.9995)
+                    print("판매")
+                else:
+                    print("코인없음")
 
         time.sleep(1)
     except Exception as e:

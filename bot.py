@@ -59,7 +59,7 @@ schedule.every().hour.do(lambda: predict_price("KRW-IOTA"))
 # 로그인
 upbit = pyupbit.Upbit(access, secret)
 print("autotrade start")
-
+"""
 # 자동매매 시작
 while True:
     try:
@@ -88,4 +88,4 @@ while True:
         print(e)
         time.sleep(1)
 
-
+"""
