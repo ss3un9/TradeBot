@@ -12,8 +12,8 @@ import threading
 
 
 """ API 키"""
-access = "hVjcPOw4EcrBxc1QdxTZEdFrmnDchvjBKxD5fB1m"
-secret = "eaSTtF9Sf9EBEQBuWR1sUAWZ0Vjx8TqG7xCAo1c9"
+access = ""
+secret = ""
 upbit = pyupbit.Upbit(access, secret)
 
 
